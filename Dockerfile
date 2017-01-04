@@ -130,20 +130,17 @@ RUN \
   && curl -L -o $PNGQUANT_VERSION-lib.tar.gz -O https://github.com/ImageOptim/libimagequant/archive/$PNGQUANT_VERSION.tar.gz \
   && tar xzf $PNGQUANT_VERSION.tar.gz \
   && tar xzf $PNGQUANT_VERSION-lib.tar.gz \
-  && cd libimagequant-$PNGQUANT_VERSION \
+  && mv libimagequant-$PNGQUANT_VERSION/* pngquant-$PNGQUANT_VERSION/lib \
+  && cd pngquant-$PNGQUANT_VERSION/lib \
   && ./configure && make \
   && cd .. \
-  && cp -rf libimagequant-$PNGQUANT_VERSION pngquant-$PNGQUANT_VERSION/lib \
-  && cd pngquant-$PNGQUANT_VERSION \
   && ./configure && make && make install
 
 # svgo
 RUN npm install -g svgo
 
 # image_optim
-RUN \
-  echo -e 'install: --no-document\nupdate: --no-document' > "$HOME/.gemrc" \
-  && gem install --no-document image_optim
+RUN gem install --no-document image_optim
 
 # cleanup
 RUN \
